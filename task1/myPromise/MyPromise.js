@@ -1,12 +1,16 @@
-
+/**
+ * Q1: 在class中使用resolve，reject使用箭头函数， then使用普通函数有什么区别？
+ * 
+ * Q2: successCallBack传递不是很懂
+ */
 
 const PENDING = 'pending';
 const FULFILLED = 'fulfilled';
-const RWJECTED = 'rejected';
+const REJECTED = 'rejected';
 
 class MyPromise {
-  constructor(executor) {
-    executor(this.resolve, this.reject);
+  constructor(aaa) {
+    aaa(this.resolve, this.reject);
   }
 
   status = PENDING;
@@ -17,7 +21,7 @@ class MyPromise {
   failCallBack = undefined;
 
   resolve = (value) => {
-    if (this.tatus !== PENDING) return;
+    if (this.status !== PENDING) return;
     this.status = FULFILLED;
 
     this.value = value;
@@ -28,7 +32,7 @@ class MyPromise {
 
   reject = (reason) => {
     if (this.status !== PENDING) return;
-    this.status = RWJECTED;
+    this.status = REJECTED;
 
     this.reason = reason;
 
@@ -36,10 +40,11 @@ class MyPromise {
     this.failCallBack && this.failCallBack(this.reason);
   }
 
-  then(successCallBack, failCallBack) {
+  then = (successCallBack, failCallBack) => {
+    console.log('then===', successCallBack, this.value);
     if (this.status === FULFILLED) {
       successCallBack(this.value);
-    } else if (this.status === RWJECTED) {
+    } else if (this.status === REJECTED) {
       failCallBack(this.reason);
     } else {
       // pending 状态
