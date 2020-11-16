@@ -1,57 +1,130 @@
-/**
- * Q1: 在class中使用resolve，reject使用箭头函数， then使用普通函数有什么区别？
- * 
- * Q2: successCallBack传递不是很懂
- */
+class MyPromise{
+  constructor(excutor){
+    this.value = '';
+    this.reason = '';
+    this.status = 'padding'
+    this.onFulfilledCallback = []
+    this.onRejectedCallback = []
+    let resolve = (value)=>{
+      if (this.status == 'padding') {
+        this.status = 'fulfilled'
+        this.value = value
+        this.onFulfilledCallback.forEach(fn=>{
+          fn()
+        })
+      }
+    };
+    let reject = (reason)=>{
+      if (this.status == 'padding') {
+        this.status = 'rejected'
+        this.reason = reason
+        this.onRejectedCallback.forEach(fn=>{
+          fn()
+        })
+      }
+    };
+    /*1. 当发生异常是捕获异常 */
+    try{
+      excutor(resolve,reject)
+    }catch (e){
+      reject(e)
+    }
 
-const PENDING = 'pending';
-const FULFILLED = 'fulfilled';
-const REJECTED = 'rejected';
-
-class MyPromise {
-  constructor(aaa) {
-    aaa(this.resolve, this.reject);
   }
+  then(onFulfilled,onRejected){
+    //4.防止使用者不传成功或失败回调函数，所以成功失败回调都给了默认回调函数
+    onFulfilled = typeof onFulfilled === "function" ? onFulfilled : value => value;
+    onRejected = typeof onRejected === "function" ? onRejected : error => { throw error };
+    let newPromise;
+    if(this.status == 'fulfilled'){
+      return newPromise = new MyPromise((resolve,reject)=>{
+        setTimeout(()=>{
+          try{
+            let x = onFulfilled(this.value)
+            this.resolvePromise(newPromise, x, resolve, reject);
+          }catch (e){
+            reject(e)
+          }
+        })
 
-  status = PENDING;
-  value = undefined;
-  reason = undefined;
+      })
 
-  successCallBack = undefined;
-  failCallBack = undefined;
+    }
+    if(this.status == 'rejected'){
+      return newPromise = new MyPromise((resolve,reject)=>{
+        setTimeout(()=>{
+          try{
+            let x = onRejected(this.reason)
+            this.resolvePromise(newPromise, x, resolve, reject);
+          }catch (e){
+            reject(e)
+          }
+        })
 
-  resolve = (value) => {
-    if (this.status !== PENDING) return;
-    this.status = FULFILLED;
+      })
 
-    this.value = value;
-
-    // 成功是否存在
-    this.successCallBack && this.successCallBack(this.value);
-  }
-
-  reject = (reason) => {
-    if (this.status !== PENDING) return;
-    this.status = REJECTED;
-
-    this.reason = reason;
-
-    // 失败是否存在
-    this.failCallBack && this.failCallBack(this.reason);
-  }
-
-  then = (successCallBack, failCallBack) => {
-    console.log('then===', successCallBack, this.value);
-    if (this.status === FULFILLED) {
-      successCallBack(this.value);
-    } else if (this.status === REJECTED) {
-      failCallBack(this.reason);
-    } else {
-      // pending 状态
-      this.successCallBack = successCallBack;
-      this.failCallBack = failCallBack;
+    }
+    if(this.status == 'padding'){
+      return newPromise = new MyPromise((resolve,reject)=> {
+        this.onFulfilledCallback.push(() => {
+          setTimeout(()=> {
+            try {
+              let x = onFulfilled(this.value)
+              this.resolvePromise(newPromise, x, resolve, reject);
+            } catch (e) {
+              reject(e)
+            }
+          })
+        })
+        this.onRejectedCallback.push(() => {
+          setTimeout(()=> {
+            try {
+              let x = onRejected(this.reason)
+              this.resolvePromise(newPromise, x, resolve, reject);
+            } catch (e) {
+              reject(e)
+            }
+          })
+        })
+      })
     }
   }
-}
+  catch(onRejected){
+    this.then(null,onRejected)
+  }
+  resolvePromise(newPromise,x,resolve,reject){
+    if (newPromise === x) {
+      return reject(new TypeError('Circular reference'));
+    }
+    let called = false;
+    if (x != null && ((typeof x === 'object') || (typeof x === 'function'))) {
+      try{
+        let then = x.then;
+        if (typeof then === 'function') {
+          then.call(x, y => {
+            if (called) return;
+            called = true;
+            this.resolvePromise(newPromise, y, resolve, reject);
+          }, error => {
+            if (called) return;
+            called = true;
+            reject(error);
+          })
+        } else {
+          resolve(x);
+        }
+      }catch(e){
+        if (called) return;
+        called = true;
+        reject(e);
+      }
 
-module.exports = MyPromise;
+    }else {
+      resolve(x)
+    }
+  }
+
+}
+module.exports = MyPromise
+
+

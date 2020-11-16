@@ -1,10 +1,4 @@
-/**
- * 手写promise
- * S1 new Promise((resolve, reject) => {})
- * 
- * S2 resolve((value) => {successCallBack(value)})
- *    reject((reason) => {failCallBack(reason)})
- */
+
 const MyPromise = require('./MyPromise');
 let promise = new MyPromise((resolve, reject) => {
   // resolve('成功');
@@ -14,12 +8,16 @@ let promise = new MyPromise((resolve, reject) => {
 })
 .then(
   (value) => {
-    console.log(value)
+    console.log(value);
+    return 100
   }, 
   (reason) => {
     console.log(reason)
   }
-);
+)
+.then((value) => {
+  console.log(value);
+})
 
 // console.log(promise.resolve);
 // console.log(promise.then);
