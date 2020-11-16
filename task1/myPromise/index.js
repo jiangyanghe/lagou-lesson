@@ -2,7 +2,7 @@
 const MyPromise = require('./MyPromise');
 let promise = new MyPromise((resolve, reject) => {
   // resolve('成功');
-  setTimeout(() => {resolve('成功');}, 2000)
+  setTimeout(() => {resolve('成功');}, 3000)
   // setTimeout(() => {reject('失败');}, 2000)
   // reject('失败');
 })
