@@ -1,25 +1,25 @@
-var a = [];
+// var a = [];
 
-for (var i=0; i< 10; i++) {
-  a[i] = function() {
-    console.log(i)
-  }
-}
+// for (var i=0; i< 10; i++) {
+//   a[i] = function() {
+//     console.log(i)
+//   }
+// }
 
-a[6]();
+// a[6]();
 
-// 修改
-var b = [];
+// // 修改
+// var b = [];
 
-for (let i=0; i< 10; i++) {
-  b[i] = function() {
-    console.log(i)
-  }
-}
+// for (let i=0; i< 10; i++) {
+//   b[i] = function() {
+//     console.log(i)
+//   }
+// }
 
-b[6]();
+// b[6]();
 
-console.log(a, b);
+// console.log(a, b);
 
 // var temp = 123;
 
@@ -28,5 +28,16 @@ console.log(a, b);
   // let temp;
 // }
 
-var arr = [12, 30, 32, 89, 4];
-console.log((arr.sort((a , b) => a - b))[0]);
+// var arr = [12, 30, 32, 89, 4];
+// console.log((arr.sort((a , b) => a - b))[0]);
+
+var a= 10;
+var obj = {
+  a: 20,
+  fn() {
+    setTimeout(() => {
+      console.log(a)
+    }, 0)
+  }
+}
+console.log(obj.fn());
