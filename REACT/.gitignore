@@ -1,0 +1,6 @@
+node_modules/
+.vscode-upload.json
+.vscode
+.DS_Store
+package-lock.json
+report_*.xml

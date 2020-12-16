@@ -1,0 +1,14 @@
+{
+  "name": "react-leasson",
+  "version": "1.0.0",
+  "description": "## JSX代码是如何“摇身一变”成为DOM的？  * JSX本质是什么？它和js有什么关系？  * 为什么要用jsx? 不用会有什么后果？  * JSX背后的功能模块是什么？这个功能模块做了哪些事情？",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "react": "^17.0.1"
+  }
+}
