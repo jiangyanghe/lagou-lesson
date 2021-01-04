@@ -128,3 +128,8 @@ ReactDOM.render(
     // 回调函数，可选参数，可以用来处理渲染结束后的逻辑
     [callback]
 )
+```
+
+<img src="./assets/creatElement.png">
+<img src="./assets/jsx2.png">
+<img src="./assets/element.png">
