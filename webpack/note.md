@@ -1,0 +1,1 @@
+* webpack4 之后的版本 默认是将’src/index.js‘作为入口文件
