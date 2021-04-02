@@ -23,9 +23,9 @@ module.exports = merge(commonConfig, {
     ]
   },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   //定义BASE_URL index.html中需要使用
-    //   BASE_URL: "/public/"
-    // })
+    new webpack.DefinePlugin({
+      //定义BASE_URL index.html中需要使用
+      BASE_URL: "/public/"
+    })
   ]
 });

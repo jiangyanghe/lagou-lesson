@@ -20,8 +20,8 @@ module.exports = merge(commonConfig, {
 
   //输出的文件名
   output: {
-    // filename: "js/[name].[hash:8].js",
-    // publicPath: "./public"
+    filename: "js/[name].[hash:8].js",
+    publicPath: "./public"
   },
   //更改css和less的loader
   module: {

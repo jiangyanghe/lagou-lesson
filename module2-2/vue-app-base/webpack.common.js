@@ -10,7 +10,7 @@ module.exports = {
   entry: "./src/main.js",
   //打包出口文件 这个里面我们需要用到__dirname来生成一个绝对路径
   output: {
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "public")
   },
   module: {
     rules: [
