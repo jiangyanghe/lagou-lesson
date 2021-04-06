@@ -1,6 +1,6 @@
 const { merge } = require("webpack-merge");
 const commonConfig = require("./webpack.common");
-const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -17,11 +17,13 @@ const path = require("path");
 //生产环境的配置
 module.exports = merge(commonConfig, {
   mode: "production",
+  //去除sourceMap
+  devtool: "none",
 
   //输出的文件名
   output: {
-    // filename: "js/[name].[hash:8].js",
-    // publicPath: "./public"
+    filename: "js/[name].[hash:8].js",
+    publicPath: "./"
   },
   //更改css和less的loader
   module: {
@@ -48,14 +50,14 @@ module.exports = merge(commonConfig, {
         removeAttributeQuotes: true //去除属性引用
       }
     }),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       BASE_URL: process.env.NODE_ENV
     }),
     //用于每次生成的时候，清理上次的打包文件
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "css/[name].[hash:7].css",
-      chunkFilename: path.posix.join("static", "css/[id].[chunkhash:7].css")
+      chunkname: path.posix.join("static", "css/[id].[chunkhash:7].css")
     })
   ],
   optimization: {
@@ -65,7 +67,7 @@ module.exports = merge(commonConfig, {
     },
     minimize: true,
     minimizer: [
-      // css压缩
+      //css压缩
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
           discardComments: { remove: true } //移除注释
@@ -73,6 +75,7 @@ module.exports = merge(commonConfig, {
       }),
       new TerserPlugin({
         parallel: true, //开启多线程来提高构建速度
+        sourceMap: false,
         terserOptions: {
           warnings: false, //不展示warning
           compress: {

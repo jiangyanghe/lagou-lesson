@@ -1,5 +1,5 @@
 const commonConfig = require("./webpack.common");
-const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 
 const { merge } = require("webpack-merge");
 
@@ -7,7 +7,7 @@ module.exports = merge(commonConfig, {
   //开发环境
   mode: "development",
   //指定sourceMap
-  // devtool: false,
+  devtool: "#@cheap-module-source-map",
   module: {
     rules: [
       {
@@ -23,9 +23,9 @@ module.exports = merge(commonConfig, {
     ]
   },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   //定义BASE_URL index.html中需要使用
-    //   BASE_URL: "/public/"
-    // })
+    new DefinePlugin({
+      //定义BASE_URL index.html中需要使用
+      BASE_URL: "/public/"
+    })
   ]
 });

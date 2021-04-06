@@ -23,7 +23,6 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        exclude: /node_modules/,
         //用于解析vue文件
         use: ["vue-loader"]
       },
