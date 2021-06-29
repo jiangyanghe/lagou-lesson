@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简单版 Vue 模拟</title>
+</head>
+<body>
+  <div id="app">
+    <h1>v-html</h1>
+    <div v-html="htmlStr"></div>
+
+    <h1>v-on</h1>
+    <div>
+      <h4>click 事件</h4>
+      <button v-on:click="handleShowAlert">我会弹一个 alert</button>
+    </div>
+    <div>
+      <h4>change 事件</h4>
+      <input type="text" placeholder="" v-on:change="handleInputChange">
+    </div>
+    
+
+    <h1>插值表达式</h1>
+    <h3>{{ msg }}</h3>
+    <h3>{{ count }}</h3>
+
+    <h1>v-text</h1>
+    <div v-text="msg"></div>
+
+    <h1>v-model</h1>
+    <input type="text" v-model="msg">
+    <input type="text" v-model="count">
+  </div>
+  
+  <script src="./js/dep.js"></script>
+  <script src="./js/watcher.js"></script>
+  <script src="./js/compiler.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'Hello Vue!',
+        count: 20,
+        pserson: {
+          name: '张三'
+        },
+        htmlStr: '<p style="background-color: bisque">v-html 指令</p>',
+      },
+      methods: {
+        handleShowAlert () {
+          alert('我是一个 alert');
+        },
+        handleInputChange (e) {
+          if (!e.target.value) return;
+          alert('输入的值是：' + e.target.value)
+        }
+      }
+    })
+
+  </script>
+</body>
+</html>
